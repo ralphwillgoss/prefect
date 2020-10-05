@@ -7,11 +7,7 @@ import prefect
 from prefect import task, Flow, unmapped
 from prefect.engine.executors import LocalDaskExecutor
 
-
-@task
-def common_preprocessing(n: int) -> str:
-    sleep(1)
-    return ''.join([str(i) for i in range(n)])
+from common_preprocessing import common_preprocessing
 
 
 @task
@@ -26,14 +22,6 @@ def individual_preprocessing(name: str) -> str:
 def spread_out(data: str) -> List[str]:
     sleep(1)
     return list(data)
-
-
-@task
-def expensive_computation(obj: str, data: str) -> str:
-    logger = logging.getLogger("lib")
-    logger.info(f'Computing {obj} with {data}')
-    sleep(1)
-    return obj + data
 
 
 @task
