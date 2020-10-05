@@ -1,9 +1,8 @@
 import logging
-import sys
+from logging import NullHandler
 from time import sleep
 from typing import List
 
-import prefect
 from prefect import task, Flow, unmapped
 from prefect.engine.executors import LocalDaskExecutor
 
@@ -69,12 +68,12 @@ def create_workflow(n: int, names: str):
 def main():
     logger = logging.getLogger("lib")
     logger.setLevel('INFO')
-    log_stream = logging.StreamHandler(sys.stdout)
-    log_stream.setFormatter("%(funcName)s")
-    logger.addHandler(log_stream)
+    logger.addHandler(NullHandler())
 
+    logger.info("starting...")
     flow = create_workflow(3, 'abc')
     flow.run(executor=LocalDaskExecutor(scheduler='processes', n_workers=4))
+    logger.info("finished")
 
 
 if __name__ == '__main__':
