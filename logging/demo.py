@@ -8,6 +8,7 @@ from prefect import task, Flow, unmapped
 from prefect.engine.executors import LocalDaskExecutor
 
 from common_preprocessing import common_preprocessing
+from expensive_computation import expensive_computation
 
 
 @task
